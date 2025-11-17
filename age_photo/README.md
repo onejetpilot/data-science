@@ -48,8 +48,8 @@ Backbone: **ResNet50** (без верхних слоёв)
 Сверху: - GlobalAveragePooling2D - Dense(256, relu) - Dense(64, relu) -
 Dense(1, linear)
 
-Параметры: - Loss: MSE\
-- Metric: MAE\
+Параметры: - Loss: MSE
+- Metric: MAE
 - Optimizer: Adam (lr=1e-4)
 
 ## Обучение модели
@@ -71,13 +71,14 @@ Dense(1, linear)
 
 ## Используемый стек
 
--   Python\
--   TensorFlow / Keras\
--   ResNet50\
--   Pandas, NumPy\
+-   Python
+-   TensorFlow / Keras
+-   ResNet50
+-   Pandas, NumPy
 -   Matplotlib, Seaborn
 
 ## Итог
 
 Модель достигает **MAE ≈ 6.27**, успешно справляется с задачей и готова
 к дальнейшему улучшению.
+
