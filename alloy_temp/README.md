@@ -3,6 +3,10 @@
 Проект посвящён разработке модели, которая прогнозирует конечную температуру плавки стального сплава на основе данных производственного процесса.  
 Цель — помочь металлургическому предприятию оптимизировать энергопотребление и улучшить контроль качества продукции.
 
+## Используемый стек
+
+![Python](https://img.shields.io/badge/-Python-blue) ![Pandas](https://img.shields.io/badge/-Pandas-blue) ![NumPy](https://img.shields.io/badge/-NumPy-yellow) ![Matplotlib](https://img.shields.io/badge/-Matplotlib-orange) ![Seaborn](https://img.shields.io/badge/-Seaborn-lightblue) ![CatBoost](https://img.shields.io/badge/-CatBoost-black) ![Scikit-learn](https://img.shields.io/badge/-Scikit--learn-orange)
+
 ---
 
 ## Цели исследования
@@ -79,6 +83,7 @@
 ## Используемый стек
 
 ![Python](https://img.shields.io/badge/-Python-blue) ![Pandas](https://img.shields.io/badge/-Pandas-blue) ![NumPy](https://img.shields.io/badge/-NumPy-yellow) ![Matplotlib](https://img.shields.io/badge/-Matplotlib-orange) ![Seaborn](https://img.shields.io/badge/-Seaborn-lightblue) ![CatBoost](https://img.shields.io/badge/-CatBoost-black) ![Scikit-learn](https://img.shields.io/badge/-Scikit--learn-orange)
+
 
 
 
