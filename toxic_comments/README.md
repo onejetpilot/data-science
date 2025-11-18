@@ -2,6 +2,9 @@
 
 Проект направлен на разработку модели, способной автоматически определять токсичность пользовательских комментариев. Такая система может использоваться в службах модерации, сервисах с пользовательским контентом и в автоматических фильтрах качества коммуникации.
 
+## Используемый стек
+
+![Python](https://img.shields.io/badge/-Python-blue) ![Pandas](https://img.shields.io/badge/-Pandas-blue) ![NumPy](https://img.shields.io/badge/-NumPy-yellow) ![Matplotlib](https://img.shields.io/badge/-Matplotlib-orange) ![Seaborn](https://img.shields.io/badge/-Seaborn-lightblue) ![spaCy](https://img.shields.io/badge/-spaCy-lightblue) ![NLTK](https://img.shields.io/badge/-NLTK-green) ![WordCloud](https://img.shields.io/badge/-WordCloud-purple) ![Scikit-learn](https://img.shields.io/badge/-Scikit--learn-orange) ![Regex](https://img.shields.io/badge/-Regex-grey)
 ---
 
 ## Цели исследования
@@ -31,14 +34,3 @@
 - Сравнение моделей показало, что LinearSVC лучше всего справляется с задачей.  
 - Итоговый F1 превышает требуемый уровень, что позволяет использовать модель в реальных задачах фильтрации токсичности.
 
----
-
-## Используемый стек
-- Python  
-- Pandas, NumPy  
-- Matplotlib, Seaborn  
-- spaCy  
-- NLTK  
-- WordCloud  
-- Scikit-learn (TfidfVectorizer, LogisticRegression, LinearSVC, StratifiedKFold, cross-validation tools)  
-- Регулярные выражения (`re`)
