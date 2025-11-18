@@ -78,11 +78,7 @@
 - отслеживать аномалии датчиков и некорректные замеры;  
 - при необходимости расширить сбор данных о химических составах материалов.
 
----
 
-## Используемый стек
-
-![Python](https://img.shields.io/badge/-Python-blue) ![Pandas](https://img.shields.io/badge/-Pandas-blue) ![NumPy](https://img.shields.io/badge/-NumPy-yellow) ![Matplotlib](https://img.shields.io/badge/-Matplotlib-orange) ![Seaborn](https://img.shields.io/badge/-Seaborn-lightblue) ![CatBoost](https://img.shields.io/badge/-CatBoost-black) ![Scikit-learn](https://img.shields.io/badge/-Scikit--learn-orange)
 
 
 
