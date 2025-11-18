@@ -2,6 +2,9 @@
 
 Проект посвящён созданию модели, которая определяет соответствие между текстом и изображением. Цель — научиться сопоставлять запрос пользователя и фотографию, чтобы улучшить поиск изображений и рекомендации.
 
+## Используемый стек
+
+![Python](https://img.shields.io/badge/-Python-blue) ![Pandas](https://img.shields.io/badge/-Pandas-blue) ![NumPy](https://img.shields.io/badge/-NumPy-yellow) ![Matplotlib](https://img.shields.io/badge/-Matplotlib-orange) ![Seaborn](https://img.shields.io/badge/-Seaborn-lightblue) ![NLTK](https://img.shields.io/badge/-NLTK-green) ![spaCy](https://img.shields.io/badge/-spaCy-lightblue) ![PyTorch](https://img.shields.io/badge/-PyTorch-red) ![PIL](https://img.shields.io/badge/-PIL-lightgrey) ![OpenCV](https://img.shields.io/badge/-OpenCV-blue)
 ---
 
 ## Цели исследования
@@ -47,17 +50,5 @@
 - Использование CLIP позволяет автоматически связать текст и картинку в общем пространстве.  
 - Финальная модель хорошо решает задачу сопоставления и подходит для системы поиска изображений по запросу.  
 - Текстовые и визуальные признаки вместе дают максимальное качество.  
-
----
-
-## Используемый стек
-
-- Python  
-- pandas, NumPy  
-- matplotlib, seaborn  
-- nltk, spacy  
-- PyTorch  
-- sklearn  
-- PIL, OpenCV  
 
 
