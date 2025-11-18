@@ -34,15 +34,12 @@
 
 ## Используемый стек
 
--   Python
--   TensorFlow / Keras
--   ResNet50
--   Pandas, NumPy
--   Matplotlib, Seaborn
+![Python](https://img.shields.io/badge/-Python-blue) ![TensorFlow](https://img.shields.io/badge/-TensorFlow-orange) ![Keras](https://img.shields.io/badge/-Keras-red) ![ResNet50](https://img.shields.io/badge/-ResNet50-lightgrey) ![Pandas](https://img.shields.io/badge/-Pandas-blue) ![NumPy](https://img.shields.io/badge/-NumPy-yellow) ![Matplotlib](https://img.shields.io/badge/-Matplotlib-orange) ![Seaborn](https://img.shields.io/badge/-Seaborn-lightblue)
 
 ## Итог
 
 Модель достигает **MAE ≈ 6.27**, успешно справляется с задачей и готова
 к дальнейшему улучшению.
+
 
 
