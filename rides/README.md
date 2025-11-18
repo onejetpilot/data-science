@@ -3,6 +3,10 @@
 Проект посвящён анализу работы сервиса аренды самокатов GoFast на основе данных о пользователях, поездках и подписках.  
 Цель — понять поведение клиентов, проверить гипотезы продакт‑менеджеров и помочь маркетингу и техподдержке в принятии решений.
 
+## Используемый стек
+
+![Python](https://img.shields.io/badge/-Python-blue) ![Pandas](https://img.shields.io/badge/-Pandas-blue) ![NumPy](https://img.shields.io/badge/-NumPy-yellow) ![Matplotlib](https://img.shields.io/badge/-Matplotlib-orange) ![Seaborn](https://img.shields.io/badge/-Seaborn-lightblue) ![SciPy](https://img.shields.io/badge/-SciPy-blue)
+
 ---
 
 ## Цели исследования
@@ -57,12 +61,4 @@
 
 Главный вывод: **пользователи с подпиской более выгодны для компании**, так как приносят больше выручки и демонстрируют более высокую вовлечённость, при этом нагрузка на самокаты остаётся в допустимых пределах.
 
----
-
-## Используемый стек
-
-- Python  
-- pandas, NumPy  
-- matplotlib, seaborn  
-- scipy.stats (t‑тесты, биномиальное распределение)  
 
