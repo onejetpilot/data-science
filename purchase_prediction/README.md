@@ -2,6 +2,10 @@
 
 Проект посвящён разработке модели, которая предсказывает вероятность покупки клиентом в течение 90 дней после рассылки маркетинговых сообщений. Цель — повысить точность таргетинга и улучшить эффективность маркетинговых кампаний.
 
+
+## Используемый стек
+
+![Python](https://img.shields.io/badge/-Python-blue) ![Pandas](https://img.shields.io/badge/-Pandas-blue) ![NumPy](https://img.shields.io/badge/-NumPy-yellow) ![Matplotlib](https://img.shields.io/badge/-Matplotlib-orange) ![Seaborn](https://img.shields.io/badge/-Seaborn-lightblue) ![Scikit-learn](https://img.shields.io/badge/-Scikit--learn-orange) ![CatBoost](https://img.shields.io/badge/-CatBoost-black) ![LightGBM](https://img.shields.io/badge/-LightGBM-green)
 ---
 
 ## Цели исследования
@@ -53,15 +57,5 @@
 - Обучены несколько моделей, лучшая — CatBoost (ROC‑AUC 0.8712).  
 - Модель может использоваться для персонализации маркетинговых рассылок и увеличения конверсии.
 
----
-
-## Используемый стек
-
-- Python  
-- pandas, NumPy  
-- matplotlib, seaborn  
-- scikit-learn  
-- CatBoost, LightGBM  
-- методы работы с датами и категориальными признаками  
 
 
