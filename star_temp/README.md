@@ -3,6 +3,9 @@
 Проект посвящён созданию нейронной сети, которая предсказывает **абсолютную температуру поверхности звезды** на основе её физических характеристик.  
 Данные предоставлены обсерваторией «Небо на ладони» и включают параметры 240 звёзд.
 
+## Используемый стек
+
+![Python](https://img.shields.io/badge/-Python-blue) ![Pandas](https://img.shields.io/badge/-Pandas-blue) ![NumPy](https://img.shields.io/badge/-NumPy-yellow) ![Matplotlib](https://img.shields.io/badge/-Matplotlib-orange) ![Seaborn](https://img.shields.io/badge/-Seaborn-lightblue) ![TensorFlow](https://img.shields.io/badge/-TensorFlow-orange) ![Keras](https://img.shields.io/badge/-Keras-red) 
 ---
 
 ## Цели исследования
@@ -51,14 +54,5 @@
   - светимость,  
   - радиус.  
 
----
-
-## Используемый стек
-
-- Python  
-- pandas, NumPy  
-- matplotlib, seaborn  
-- scikit-learn  
-- TensorFlow / Keras  
 
 
