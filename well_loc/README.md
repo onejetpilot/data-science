@@ -2,6 +2,9 @@
 
 Проект посвящён анализу данных по трём нефтяным регионам и выбору локации для бурения скважин с максимальной ожидаемой прибылью при контроле риска убытков.  
 
+## Используемый стек
+
+![Python](https://img.shields.io/badge/-Python-blue) ![Pandas](https://img.shields.io/badge/-Pandas-blue) ![NumPy](https://img.shields.io/badge/-NumPy-yellow) ![Matplotlib](https://img.shields.io/badge/-Matplotlib-orange) ![Seaborn](https://img.shields.io/badge/-Seaborn-lightblue) ![Scikit-learn](https://img.shields.io/badge/-Scikit--learn-orange) ![PHIK](https://img.shields.io/badge/-PHIK-grey) ![Pingouin](https://img.shields.io/badge/-Pingouin-grey)
 ---
 
 ## Цели исследования
@@ -42,15 +45,4 @@
 - Бутстреп-анализ показал, что регионы с высокой средней прибылью могут иметь неприемлемо высокий риск убытков.  
 - Выбран регион, в котором средняя прибыль максимальна при контролируемом уровне риска — его и рекомендуется к разработке.
 
----
-
-## Используемый стек
-
-- **Python** — основной язык разработки  
-- **pandas** — загрузка и обработка табличных данных  
-- **NumPy** — численные расчёты, работа с массивами  
-- **matplotlib**, **seaborn** — визуализация распределений, графики и диаграммы  
-- **scikit-learn** — модели линейной регрессии, разбиение выборки, метрики качества  
-- **PHIK / pingouin / другие библиотеки (при необходимости)** — расширенный анализ корреляций  
-- встроенные средства Python — для расчёта прибыли и реализации бутстрепа
 
