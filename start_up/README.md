@@ -3,6 +3,10 @@
 Проект посвящён разработке модели, которая определяет, закроется стартап или продолжит существование.  
 Используются данные о финансировании, отрасли, дате основания, местоположении, количестве сотрудников и других признаках.
 
+## Используемый стек
+
+![Python](https://img.shields.io/badge/-Python-blue) ![Pandas](https://img.shields.io/badge/-Pandas-blue) ![NumPy](https://img.shields.io/badge/-NumPy-yellow) ![Matplotlib](https://img.shields.io/badge/-Matplotlib-orange) ![Seaborn](https://img.shields.io/badge/-Seaborn-lightblue) ![LightGBM](https://img.shields.io/badge/-LightGBM-green) ![CatBoost](https://img.shields.io/badge/-CatBoost-black) 
+
 ---
 
 ## Цели исследования
@@ -50,14 +54,4 @@
 - Проект демонстрирует, что успешность стартапа можно оценить по нескольким ключевым признакам.  
 - Модель может использоваться для портфельного анализа венчурных фондов.
 
----
-
-## Используемый стек
-
-- Python  
-- pandas, NumPy  
-- matplotlib, seaborn  
-- scikit-learn  
-- LightGBM  
-- CatBoost  
 
