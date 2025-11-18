@@ -2,6 +2,9 @@
 
 Проект посвящён разработке модели, которая определяет наиболее выгодные персональные предложения для клиентов интернет‑магазина «В один клик». Цель — повысить покупательскую активность и увеличить прибыль за счёт индивидуальных рекомендаций.
 
+## Используемый стек
+
+![Python](https://img.shields.io/badge/-Python-blue) ![Pandas](https://img.shields.io/badge/-Pandas-blue) ![NumPy](https://img.shields.io/badge/-NumPy-yellow) ![Matplotlib](https://img.shields.io/badge/-Matplotlib-orange) ![Seaborn](https://img.shields.io/badge/-Seaborn-lightblue) ![Scikit-learn](https://img.shields.io/badge/-Scikit--learn-orange) ![CatBoost](https://img.shields.io/badge/-CatBoost-black) ![LightGBM](https://img.shields.io/badge/-LightGBM-green)
 ---
 
 ## Цели исследования
@@ -64,15 +67,5 @@
 - Персонализация позволяет существенно увеличить прибыль.  
 - Оптимальная стратегия: фокус на активных и среднеактивных пользователях с высокой прибылью.
 
----
-
-## Используемый стек
-
-- Python  
-- pandas, NumPy  
-- matplotlib, seaborn  
-- scikit-learn  
-- CatBoost, LightGBM  
-- статистические методы (EDA, корреляции)  
 
 
