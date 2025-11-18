@@ -2,6 +2,9 @@
 
 Проект посвящён созданию модели, которая предсказывает вероятность дорожно‑транспортного происшествия по данным о столкновениях, участниках и транспортных средствах. Цель — разработать систему оценки риска ДТП, способную анализировать различные факторы и помогать в принятии решений.
 
+## Используемый стек
+
+![Python](https://img.shields.io/badge/-Python-blue) ![Pandas](https://img.shields.io/badge/-Pandas-blue) ![NumPy](https://img.shields.io/badge/-NumPy-yellow) ![Matplotlib](https://img.shields.io/badge/-Matplotlib-orange) ![Seaborn](https://img.shields.io/badge/-Seaborn-lightblue) ![Scikit-learn](https://img.shields.io/badge/-Scikit--learn-orange) ![CatBoost](https://img.shields.io/badge/-CatBoost-black) ![LightGBM](https://img.shields.io/badge/-LightGBM-green)
 ---
 
 ## Цели исследования
@@ -56,16 +59,3 @@
 - Лучшая модель продемонстрировала высокое качество и устойчивость.
 - Основные факторы риска ДТП определены и интерпретируемы.
 - Полученная модель может использоваться в системах предиктивной аналитики для оценки вероятности ДТП.
-
----
-
-## Используемый стек
-
-- Python  
-- pandas, NumPy  
-- matplotlib, seaborn  
-- scikit-learn  
-- CatBoost / LightGBM  
-- SQLite / CSV  
-
-
