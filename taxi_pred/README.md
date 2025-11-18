@@ -3,6 +3,9 @@
 Проект посвящён разработке модели, которая прогнозирует количество заказов такси на следующий час на основе исторических данных.  
 Цель — помочь сервису оптимизировать количество автомобилей в разных районах и повысить качество обслуживания.
 
+## Используемый стек
+
+![Python](https://img.shields.io/badge/-Python-blue) ![Pandas](https://img.shields.io/badge/-Pandas-blue) ![NumPy](https://img.shields.io/badge/-NumPy-yellow) ![Matplotlib](https://img.shields.io/badge/-Matplotlib-orange) ![Seaborn](https://img.shields.io/badge/-Seaborn-lightblue) ![Scikit-learn](https://img.shields.io/badge/-Scikit--learn-orange) ![LightGBM](https://img.shields.io/badge/-LightGBM-green) ![CatBoost](https://img.shields.io/badge/-CatBoost-black) 
 ---
 
 ## Цели исследования
@@ -39,14 +42,5 @@
 - Лучшая модель — **LightGBM**, RMSE ≈ 41.  
 - Модель подходит для применения в системе распределения такси.
 
----
-
-## Используемый стек
-
-- Python  
-- pandas, NumPy  
-- matplotlib, seaborn  
-- scikit-learn  
-- LightGBM, CatBoost  
 
 
