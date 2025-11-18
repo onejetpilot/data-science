@@ -1,5 +1,9 @@
 # Определение возраста по фотографии
 
+## Используемый стек
+
+![Python](https://img.shields.io/badge/-Python-blue) ![TensorFlow](https://img.shields.io/badge/-TensorFlow-orange) ![Keras](https://img.shields.io/badge/-Keras-red) ![ResNet50](https://img.shields.io/badge/-ResNet50-lightgrey) ![Pandas](https://img.shields.io/badge/-Pandas-blue) ![NumPy](https://img.shields.io/badge/-NumPy-yellow) ![Matplotlib](https://img.shields.io/badge/-Matplotlib-orange) ![Seaborn](https://img.shields.io/badge/-Seaborn-lightblue)
+
 ## Цель проекта
 
 Построить модель компьютерного зрения, которая по фотографии лица
@@ -31,10 +35,6 @@
 -   Модель хорошо предсказывает частые возраста (20--40)
 -   Ошибается чаще на редких (дети, пожилые)
 -   Оптимальное число эпох ≈ 8
-
-## Используемый стек
-
-![Python](https://img.shields.io/badge/-Python-blue) ![TensorFlow](https://img.shields.io/badge/-TensorFlow-orange) ![Keras](https://img.shields.io/badge/-Keras-red) ![ResNet50](https://img.shields.io/badge/-ResNet50-lightgrey) ![Pandas](https://img.shields.io/badge/-Pandas-blue) ![NumPy](https://img.shields.io/badge/-NumPy-yellow) ![Matplotlib](https://img.shields.io/badge/-Matplotlib-orange) ![Seaborn](https://img.shields.io/badge/-Seaborn-lightblue)
 
 ## Итог
 
