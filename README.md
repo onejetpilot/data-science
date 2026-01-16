@@ -34,4 +34,6 @@
 ## Тестовые задания
 | Проект | Инструменты |
 |--------|-------------|
-| [Агрегация нарушений ПДД и операций обработки](https://github.com/onejetpilot/data-science/tree/main/test_sql_1) | ![SQL](https://img.shields.io/badge/SQL-EXISTS%20%7C%20JOIN-informational) |
+| [Агрегация нарушений ПДД и операций обработки](https://github.com/onejetpilot/data-science/tree/main/test_sql_1) | ![SQL](https://img.shields.io/badge/SQL-PostgreSQL-blue) |
+ |
+ |
