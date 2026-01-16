@@ -1,15 +1,5 @@
 # Портфолио проектов Data Science
 
-## Computer Vision (CV)
-| Проект | Инструменты |
-|--------|-------------|
-| [Определение возраста по фотографии](https://github.com/onejetpilot/data-science/tree/main/age_photo) | ![Python](https://img.shields.io/badge/-Python-blue) ![TensorFlow](https://img.shields.io/badge/-TensorFlow-orange) ![Keras](https://img.shields.io/badge/-Keras-red) ![ResNet50](https://img.shields.io/badge/-ResNet50-lightgrey) ![Pandas](https://img.shields.io/badge/-Pandas-blue) ![NumPy](https://img.shields.io/badge/-NumPy-yellow) ![Matplotlib](https://img.shields.io/badge/-Matplotlib-orange) ![Seaborn](https://img.shields.io/badge/-Seaborn-lightblue) |
-| [Поиск изображения по текстовому запросу](https://github.com/onejetpilot/data-science/tree/main/image_find) | ![Python](https://img.shields.io/badge/-Python-blue) ![Pandas](https://img.shields.io/badge/-Pandas-blue) ![NumPy](https://img.shields.io/badge/-NumPy-yellow) ![Matplotlib](https://img.shields.io/badge/-Matplotlib-orange) ![Seaborn](https://img.shields.io/badge/-Seaborn-lightblue) ![NLTK](https://img.shields.io/badge/-NLTK-green) ![spaCy](https://img.shields.io/badge/-spaCy-lightblue) ![PyTorch](https://img.shields.io/badge/-PyTorch-red) ![PIL](https://img.shields.io/badge/-PIL-lightgrey) ![OpenCV](https://img.shields.io/badge/-OpenCV-blue) |
-
-## NLP
-| Проект | Инструменты |
-|--------|-------------|
-| [Классификация токсичных комментариев](https://github.com/onejetpilot/data-science/tree/main/toxic_comments) | ![Python](https://img.shields.io/badge/-Python-blue) ![Pandas](https://img.shields.io/badge/-Pandas-blue) ![NumPy](https://img.shields.io/badge/-NumPy-yellow) ![Matplotlib](https://img.shields.io/badge/-Matplotlib-orange) ![Seaborn](https://img.shields.io/badge/-Seaborn-lightblue) ![spaCy](https://img.shields.io/badge/-spaCy-lightblue) ![NLTK](https://img.shields.io/badge/-NLTK-green) ![WordCloud](https://img.shields.io/badge/-WordCloud-purple) ![Scikit-learn](https://img.shields.io/badge/-Scikit--learn-orange) ![Regex](https://img.shields.io/badge/-Regex-grey) |
 
 ## Табличные данные (ML, EDA, бизнес-задачи)
 | Проект | Инструменты |
@@ -24,6 +14,17 @@
 | [Прогнозирование температуры звезды](https://github.com/onejetpilot/data-science/tree/main/star_temp) | ![Python](https://img.shields.io/badge/-Python-blue) ![Pandas](https://img.shields.io/badge/-Pandas-blue) ![NumPy](https://img.shields.io/badge/-NumPy-yellow) ![Matplotlib](https://img.shields.io/badge/-Matplotlib-orange) ![Seaborn](https://img.shields.io/badge/-Seaborn-lightblue) ![TensorFlow](https://img.shields.io/badge/-TensorFlow-orange) ![Keras](https://img.shields.io/badge/-Keras-red) |
 | [Предсказание успешности стартапов](https://github.com/onejetpilot/data-science/tree/main/start_up) | ![Python](https://img.shields.io/badge/-Python-blue) ![Pandas](https://img.shields.io/badge/-Pandas-blue) ![NumPy](https://img.shields.io/badge/-NumPy-yellow) ![Matplotlib](https://img.shields.io/badge/-Matplotlib-orange) ![Seaborn](https://img.shields.io/badge/-Seaborn-lightblue) ![LightGBM](https://img.shields.io/badge/-LightGBM-green) ![CatBoost](https://img.shields.io/badge/-CatBoost-black) |
 | [Выбор локации для разработки месторождений](https://github.com/onejetpilot/data-science/tree/main/well_loc) | ![Python](https://img.shields.io/badge/-Python-blue) ![Pandas](https://img.shields.io/badge/-Pandas-blue) ![NumPy](https://img.shields.io/badge/-NumPy-yellow) ![Matplotlib](https://img.shields.io/badge/-Matplotlib-orange) ![Seaborn](https://img.shields.io/badge/-Seaborn-lightblue) ![Scikit-learn](https://img.shields.io/badge/-Scikit--learn-orange) ![PHIK](https://img.shields.io/badge/-PHIK-grey) ![Pingouin](https://img.shields.io/badge/-Pingouin-grey) |
+
+## Computer Vision (CV)
+| Проект | Инструменты |
+|--------|-------------|
+| [Определение возраста по фотографии](https://github.com/onejetpilot/data-science/tree/main/age_photo) | ![Python](https://img.shields.io/badge/-Python-blue) ![TensorFlow](https://img.shields.io/badge/-TensorFlow-orange) ![Keras](https://img.shields.io/badge/-Keras-red) ![ResNet50](https://img.shields.io/badge/-ResNet50-lightgrey) ![Pandas](https://img.shields.io/badge/-Pandas-blue) ![NumPy](https://img.shields.io/badge/-NumPy-yellow) ![Matplotlib](https://img.shields.io/badge/-Matplotlib-orange) ![Seaborn](https://img.shields.io/badge/-Seaborn-lightblue) |
+| [Поиск изображения по текстовому запросу](https://github.com/onejetpilot/data-science/tree/main/image_find) | ![Python](https://img.shields.io/badge/-Python-blue) ![Pandas](https://img.shields.io/badge/-Pandas-blue) ![NumPy](https://img.shields.io/badge/-NumPy-yellow) ![Matplotlib](https://img.shields.io/badge/-Matplotlib-orange) ![Seaborn](https://img.shields.io/badge/-Seaborn-lightblue) ![NLTK](https://img.shields.io/badge/-NLTK-green) ![spaCy](https://img.shields.io/badge/-spaCy-lightblue) ![PyTorch](https://img.shields.io/badge/-PyTorch-red) ![PIL](https://img.shields.io/badge/-PIL-lightgrey) ![OpenCV](https://img.shields.io/badge/-OpenCV-blue) |
+
+## NLP
+| Проект | Инструменты |
+|--------|-------------|
+| [Классификация токсичных комментариев](https://github.com/onejetpilot/data-science/tree/main/toxic_comments) | ![Python](https://img.shields.io/badge/-Python-blue) ![Pandas](https://img.shields.io/badge/-Pandas-blue) ![NumPy](https://img.shields.io/badge/-NumPy-yellow) ![Matplotlib](https://img.shields.io/badge/-Matplotlib-orange) ![Seaborn](https://img.shields.io/badge/-Seaborn-lightblue) ![spaCy](https://img.shields.io/badge/-spaCy-lightblue) ![NLTK](https://img.shields.io/badge/-NLTK-green) ![WordCloud](https://img.shields.io/badge/-WordCloud-purple) ![Scikit-learn](https://img.shields.io/badge/-Scikit--learn-orange) ![Regex](https://img.shields.io/badge/-Regex-grey) |
 
 ## Тайм-серии (Time Series)
 | Проект | Инструменты |
