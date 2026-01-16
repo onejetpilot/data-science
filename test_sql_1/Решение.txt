@@ -1,0 +1,72 @@
+Решение:
+
+Вариант 1
+
+WITH viol_base AS (
+    SELECT
+        tr_viol_id,
+        time_check::date AS viol_date,
+        refuse_code
+    FROM viols
+    WHERE time_check >= DATE '2018-04-01'
+      AND time_check <  DATE '2018-04-21'
+),
+op29 AS (
+    SELECT tr_viol_id
+    FROM opers
+    WHERE oper_code = 29
+    GROUP BY tr_viol_id
+)
+SELECT
+    vb.viol_date AS viol_date,
+    COUNT(*) AS viols_total,
+    COUNT(*) FILTER (WHERE vb.refuse_code = 0) AS refuse_0,
+    COUNT(*) FILTER (WHERE o.tr_viol_id IS NOT NULL) AS oper_29,
+    COUNT(*) FILTER (
+        WHERE vb.refuse_code = 0
+          AND o.tr_viol_id IS NULL
+    ) AS oper_no29_refuse_0
+FROM viol_base vb
+LEFT JOIN op29 o
+  ON o.tr_viol_id = vb.tr_viol_id
+GROUP BY vb.viol_date
+ORDER BY vb.viol_date
+
+Сначала выбираются нарушения за период, затем отдельно формируется список tr_viol_id, по которым есть операция с кодом 29. После этого выполняется LEFT JOIN, а все показатели считаются через агрегаты с FILTER.
+
+Вариант 2
+
+SELECT
+    v.time_check::date AS viol_date,
+    COUNT(*) AS viols_total,
+    COUNT(*) FILTER (WHERE v.refuse_code = 0) AS refuse_0,
+    COUNT(*) FILTER (
+        WHERE EXISTS (
+            SELECT 1
+            FROM opers o
+            WHERE o.tr_viol_id = v.tr_viol_id
+              AND o.oper_code = 29
+        )
+    ) AS oper_29,
+    COUNT(*) FILTER (
+        WHERE v.refuse_code = 0
+          AND NOT EXISTS (
+              SELECT 1
+              FROM opers o
+              WHERE o.tr_viol_id = v.tr_viol_id
+                AND o.oper_code = 29
+          )
+    ) AS oper_no29_refuse_0
+FROM viols v
+WHERE v.time_check >= DATE '2018-04-01'
+  AND v.time_check <  DATE '2018-04-21'
+GROUP BY v.time_check::date
+ORDER BY viol_date
+
+Во втором варианте для каждой строки из viols проверяется наличие или отсутствие хотя бы одной записи в opers с oper_code = 29. Такой подход не создаёт промежуточных таблиц, а EXISTS позволяет базе остановиться на первой найденной строке, поэтому обычно работает быстрее, особенно при наличии индекса на opers(tr_viol_id, oper_code).
+
+
+Почему вариант 2 обычно лучше:
+Потому что EXISTS — это проверка наличия. Базе достаточно найти первую подходящую строку в opers и она сразу прекращает поиск.
+В 1-м варианте сначала строится отдельный набор данных с GROUP BY, затем выполняется LEFT JOIN, что создаёт лишнюю работу.
+Во 2-м варианте нет промежуточных таблиц, а оптимизатор может сделать быстрый semi-join, поэтому такой запрос обычно выполняется быстрее.
