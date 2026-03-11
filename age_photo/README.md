@@ -2,44 +2,60 @@
 
 ## Используемый стек
 
-![Python](https://img.shields.io/badge/-Python-blue) ![TensorFlow](https://img.shields.io/badge/-TensorFlow-orange) ![Keras](https://img.shields.io/badge/-Keras-red) ![ResNet50](https://img.shields.io/badge/-ResNet50-lightgrey) ![Pandas](https://img.shields.io/badge/-Pandas-blue) ![NumPy](https://img.shields.io/badge/-NumPy-yellow) ![Matplotlib](https://img.shields.io/badge/-Matplotlib-orange) ![Seaborn](https://img.shields.io/badge/-Seaborn-lightblue)
+![Python](https://img.shields.io/badge/-Python-blue)
+![Pandas](https://img.shields.io/badge/-Pandas-blue)
+![NumPy](https://img.shields.io/badge/-NumPy-yellow)
+![Pillow](https://img.shields.io/badge/-Pillow-green)
+![scikit--learn](https://img.shields.io/badge/-scikit--learn-orange)
+![PyArrow](https://img.shields.io/badge/-PyArrow-lightgrey)
+![Joblib](https://img.shields.io/badge/-Joblib-teal)
+![PowerShell](https://img.shields.io/badge/-PowerShell-5391FE)
 
 ## Цель проекта
 
-Построить модель компьютерного зрения, которая по фотографии лица
-определяет возраст человека.\
-Модель обучена на датасете **ChaLearn Looking at People** и достигает
-качества **MAE ≈ 6.27**, что удовлетворяет требованиям (\< 7).
+Построить воспроизводимый пайплайн для предсказания возраста по фотографии:
+от загрузки и проверки качества данных до подготовки признаков, обучения модели
+и сохранения артефактов.
 
 ## Данные
 
 Используется датасет:
 
-    datasets/faces/
-     ├── labels.csv
-     └── final_files/
+```text
+datasets/faces/
+├── labels.csv
+└── final_files/
+```
 
-**labels.csv** содержит два столбца:
+`labels.csv` содержит основные поля:
 
--   `file_name`
--   `real_age`
+- `file_name`
+- `real_age`
 
-Всего изображений: **7591**
+## Этапы пайплайна
 
-## Итоговые метрики
+1. `ingest`  
+   Копирует `labels.csv` в `data/raw` и сохраняет `manifest.json`.
+2. `validate`  
+   Выполняет проверки качества: null, дубликаты, диапазон возраста, наличие изображений.
+3. `build_dataset`  
+   Извлекает базовые признаки изображения (`img_width`, `img_height`, `pixel_mean`, `pixel_std`) и формирует train/val.
+4. `train`  
+   Обучает `RandomForestRegressor`, считает `MAE`, сохраняет модель и метрики.
 
-    Test MAE: 6.2721
+## Быстрый запуск
 
-## Анализ результата
+```powershell
+pip install -r requirements.txt
+./run_pipeline.ps1 -DatasetDir datasets/faces
+```
 
--   Модель хорошо предсказывает частые возраста (20--40)
--   Ошибается чаще на редких (дети, пожилые)
--   Оптимальное число эпох ≈ 8
+## Итоговые артефакты
 
-## Итог
-
-Модель достигает **MAE ≈ 6.27**, успешно справляется с задачей и готова
-к дальнейшему улучшению.
+- `data/validated/quality_report.json` - отчет по качеству данных.
+- `data/processed/train.parquet` и `data/processed/val.parquet` - подготовленные выборки.
+- `artifacts/model.joblib` - обученная baseline-модель.
+- `artifacts/metrics.json` - итоговые метрики запуска (включая `MAE`).
 
 
 
