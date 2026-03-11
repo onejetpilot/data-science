@@ -1,0 +1,21 @@
+# Raw data and generated artifacts
+tmp_raw/
+data/raw/*.csv
+data/raw/manifest.json
+data/validated/*.csv
+data/validated/*.json
+data/processed/*.parquet
+data/processed/*.csv
+data/processed/feature_manifest.json
+artifacts/*.joblib
+artifacts/*.json
+
+# Keep folder placeholders
+!data/raw/.gitkeep
+!data/validated/.gitkeep
+!data/processed/.gitkeep
+!artifacts/.gitkeep
+
+# Python cache
+__pycache__/
+*.pyc
