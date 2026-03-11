@@ -6,6 +6,10 @@
 ![Pandas](https://img.shields.io/badge/-Pandas-blue)
 ![NumPy](https://img.shields.io/badge/-NumPy-yellow)
 ![scikit--learn](https://img.shields.io/badge/-scikit--learn-orange)
+![Pillow](https://img.shields.io/badge/-Pillow-green)
+![SentenceTransformers](https://img.shields.io/badge/-SentenceTransformers-darkgreen)
+![PyTorch](https://img.shields.io/badge/-PyTorch-red)
+![TorchVision](https://img.shields.io/badge/-TorchVision-darkred)
 ![Joblib](https://img.shields.io/badge/-Joblib-teal)
 ![PyArrow](https://img.shields.io/badge/-PyArrow-lightgrey)
 ![PowerShell](https://img.shields.io/badge/-PowerShell-5391FE)
@@ -80,5 +84,5 @@ pip install -r requirements.txt
 - `data/validated/quality_report.json` - отчет по проверкам данных.
 - `data/processed/train.parquet` и `data/processed/val.parquet` - подготовленные выборки.
 - `data/processed/feature_manifest.json` - описание target и признаков.
-- `artifacts/model.joblib` - обученная MLP-модель (плюс scaler и имя SBERT модели).
+- `artifacts/model.joblib` - обученная MLP-модель (state dict) и параметры признаков.
 - `artifacts/metrics.json` - метрики запуска (`ROC-AUC`, `F1`, `Precision`, `Recall`).

@@ -8,6 +8,7 @@
 ![scikit--learn](https://img.shields.io/badge/-scikit--learn-orange)
 ![PyArrow](https://img.shields.io/badge/-PyArrow-lightgrey)
 ![Joblib](https://img.shields.io/badge/-Joblib-teal)
+![Requests](https://img.shields.io/badge/-Requests-green)
 ![PowerShell](https://img.shields.io/badge/-PowerShell-5391FE)
 
 ## Цель проекта
