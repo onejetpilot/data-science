@@ -1,0 +1,17 @@
+# Python cache and env files.
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ipynb_checkpoints/
+.venv/
+venv/
+
+# Local runtime artifacts.
+data/raw/*.csv
+data/raw/*.zip
+data/validated/*.csv
+data/validated/*.json
+data/processed/*.csv
+data/processed/*.parquet
+data/processed/*.json
+artifacts/*.json
