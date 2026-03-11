@@ -1,54 +1,84 @@
 # Поиск изображения по текстовому запросу
 
-Проект посвящён созданию модели, которая определяет соответствие между текстом и изображением. Цель — научиться сопоставлять запрос пользователя и фотографию, чтобы улучшить поиск изображений и рекомендации.
-
 ## Используемый стек
 
-![Python](https://img.shields.io/badge/-Python-blue) ![Pandas](https://img.shields.io/badge/-Pandas-blue) ![NumPy](https://img.shields.io/badge/-NumPy-yellow) ![Matplotlib](https://img.shields.io/badge/-Matplotlib-orange) ![Seaborn](https://img.shields.io/badge/-Seaborn-lightblue) ![NLTK](https://img.shields.io/badge/-NLTK-green) ![spaCy](https://img.shields.io/badge/-spaCy-lightblue) ![PyTorch](https://img.shields.io/badge/-PyTorch-red) ![PIL](https://img.shields.io/badge/-PIL-lightgrey) ![OpenCV](https://img.shields.io/badge/-OpenCV-blue)
----
+![Python](https://img.shields.io/badge/-Python-blue)
+![Pandas](https://img.shields.io/badge/-Pandas-blue)
+![NumPy](https://img.shields.io/badge/-NumPy-yellow)
+![scikit--learn](https://img.shields.io/badge/-scikit--learn-orange)
+![Joblib](https://img.shields.io/badge/-Joblib-teal)
+![PyArrow](https://img.shields.io/badge/-PyArrow-lightgrey)
+![PowerShell](https://img.shields.io/badge/-PowerShell-5391FE)
 
-## Цели исследования
+## Цель проекта
 
-- Изучить структуру данных: текстовые запросы, изображения, экспертные и крауд‑оценки.  
-- Выполнить исследовательский анализ: выявить шум, дисбаланс, ненадёжные оценки.  
-- Подготовить данные: обработать тексты, извлечь визуальные и текстовые эмбеддинги.  
-- Построить векторные представления изображений (ResNet / EfficientNet / CLIP).  
-- Построить текстовые эмбеддинги (TF‑IDF / SBERT / CLIP‑text).  
-- Обучить модель для предсказания соответствия «текст → картинка».  
-- Добиться устойчивого качества на тестовой выборке.  
-
----
+Построить воспроизводимый пайплайн для оценки соответствия пары
+`текстовый запрос -> изображение`: от загрузки исходных таблиц и
+формирования target до обучения baseline-модели и сохранения метрик.
 
 ## Данные
 
-Используются файлы:
+Источник данных: архив `find_image.zip` (распаковывается в `data/raw/find_image`).
 
-### `train_dataset.csv`
-Содержит пары:  
-- `img_id` — идентификатор изображения  
-- `text` — текстовый запрос  
-- `rate_1`, `rate_2`, `rate_3` — оценки трёх экспертов  
-- `crowd_rates` — данные краудсорсинга  
+Используемые таблицы:
 
-### `train_images/`
-Папка с изображениями для обучения.
+- `train_dataset.csv` - пары `image`, `query_id`, `query_text`.
+- `ExpertAnnotations.tsv` - экспертные оценки (`rate_1`, `rate_2`, `rate_3`).
+- `CrowdAnnotations.tsv` - крауд-оценки (`share_confirmed` и счетчики подтверждений/отклонений).
 
-### `test_images/`
-Папка с изображениями для тестирования.
+Целевая метка:
 
-### Целевая переменная
-Формируется на основе:  
-- экспертных оценок,  
-- данных крауда,  
-- агрегированного показателя соответствия в диапазоне **0–1**.
+- `target` строится как агрегат экспертных и крауд-оценок.
+- `target_bin = 1`, если `target >= 0.5`, иначе `0`.
 
----
+## Этапы пайплайна
 
-## Основные выводы
+1. `ingest`  
+   Скачивает `find_image.zip`, распаковывает нужные файлы и создает `manifest.json`.
+2. `validate`  
+   Проверяет наличие обязательных файлов/колонок и базовую целостность оценок.
+3. `build_dataset`  
+   Объединяет train + expert + crowd, строит target и делит данные на train/val.
+4. `train`  
+   Обучает `MLP` на признаках `SBERT(query_text) + ResNet50(image)` и считает  
+   `ROC-AUC`, `F1`, `Precision`, `Recall`.
 
-- Данные требуют тщательной очистки из‑за шума в оценках.  
-- Использование CLIP позволяет автоматически связать текст и картинку в общем пространстве.  
-- Финальная модель хорошо решает задачу сопоставления и подходит для системы поиска изображений по запросу.  
-- Текстовые и визуальные признаки вместе дают максимальное качество.  
+## Структура проекта
 
+```text
+image_find/
+├── src/
+│   ├── ingest.py
+│   ├── validate.py
+│   ├── build_dataset.py
+│   └── train.py
+├── data/
+│   ├── raw/
+│   ├── validated/
+│   └── processed/
+├── artifacts/
+├── run_pipeline.ps1
+├── requirements.txt
+└── image_find.ipynb
+```
 
+## Быстрый запуск
+
+```powershell
+pip install -r requirements.txt
+./run_pipeline.ps1
+```
+
+Если нужен другой источник архива:
+
+```powershell
+./run_pipeline.ps1 -DataUrl "https://your-url/find_image.zip"
+```
+
+## Итоговые артефакты
+
+- `data/validated/quality_report.json` - отчет по проверкам данных.
+- `data/processed/train.parquet` и `data/processed/val.parquet` - подготовленные выборки.
+- `data/processed/feature_manifest.json` - описание target и признаков.
+- `artifacts/model.joblib` - обученная MLP-модель (плюс scaler и имя SBERT модели).
+- `artifacts/metrics.json` - метрики запуска (`ROC-AUC`, `F1`, `Precision`, `Recall`).
