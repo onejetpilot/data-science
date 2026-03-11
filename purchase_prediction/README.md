@@ -1,61 +1,82 @@
 # Предсказание покупок
 
-Проект посвящён разработке модели, которая предсказывает вероятность покупки клиентом в течение 90 дней после рассылки маркетинговых сообщений. Цель — повысить точность таргетинга и улучшить эффективность маркетинговых кампаний.
-
-
 ## Используемый стек
 
-![Python](https://img.shields.io/badge/-Python-blue) ![Pandas](https://img.shields.io/badge/-Pandas-blue) ![NumPy](https://img.shields.io/badge/-NumPy-yellow) ![Matplotlib](https://img.shields.io/badge/-Matplotlib-orange) ![Seaborn](https://img.shields.io/badge/-Seaborn-lightblue) ![Scikit-learn](https://img.shields.io/badge/-Scikit--learn-orange) ![CatBoost](https://img.shields.io/badge/-CatBoost-black) ![LightGBM](https://img.shields.io/badge/-LightGBM-green)
----
+![Python](https://img.shields.io/badge/-Python-blue)
+![Pandas](https://img.shields.io/badge/-Pandas-blue)
+![NumPy](https://img.shields.io/badge/-NumPy-yellow)
+![scikit--learn](https://img.shields.io/badge/-scikit--learn-orange)
+![Category Encoders](https://img.shields.io/badge/-Category_Encoders-2E8B57)
+![LightGBM](https://img.shields.io/badge/-LightGBM-green)
+![CatBoost](https://img.shields.io/badge/-CatBoost-black)
+![PyArrow](https://img.shields.io/badge/-PyArrow-lightgrey)
+![Joblib](https://img.shields.io/badge/-Joblib-teal)
+![PowerShell](https://img.shields.io/badge/-PowerShell-5391FE)
 
-## Цели исследования
+## Цель проекта
 
-- Изучить данные о покупках и действиях клиентов.  
-- Создать полезные признаки на основе поведения покупателей.  
-- Обработать категориальные, числовые и временные признаки.  
-- Обучить модели классификации для предсказания вероятности покупки.  
-- Достичь высокой метрики **ROC‑AUC** и выбрать лучшую модель.  
-
----
+Построить воспроизводимый ML-пайплайн, который предсказывает вероятность покупки
+клиента в течение 90 дней после маркетинговой коммуникации.
 
 ## Данные
 
-Используются три датасета:
+Источник: `filtered_data.zip` (Hugging Face), внутри:
 
-### **apparel-purchases**  
-Данные о покупках клиентов после получения рассылок:  
-- client_id  
-- date  
-- price  
-- quantity  
-- category_ids  
-- message_id  
+- `apparel-messages.csv`
+- `apparel-purchases.csv`
+- `apparel-target_binary.csv`
 
-### **apparel-messages**  
-Информация о рассылках:  
-- client_id  
-- message_id  
-- bulk_campaign_id  
-- channel  
-- event  
-- date  
-- created_at  
+Целевая переменная:
 
-### **target**  
-Содержит ответ:  
-- client_id  
-- target (покупка в течение 90 дней)
+- `target` (`1` = была покупка, `0` = не было покупки).
 
----
+## Этапы пайплайна
 
+1. `ingest`  
+   Скачивает архив и раскладывает исходные CSV в `data/raw`.
+2. `validate`  
+   Проверяет наличие файлов, обязательных колонок и базовую целостность.
+3. `build_dataset`  
+   Повторяет основную feature engineering-логику ноутбука:
+   объединение источников, фильтры по `price/quantity`, top-100 `category_ids`,
+   временные признаки и отбор части `cat_*` по корреляции.
+4. `train`  
+   Обучает и сравнивает `LogisticRegression`, `LGBMClassifier`, `CatBoostClassifier`
+   через `GridSearchCV` с метрикой `roc_auc`.
 
-## Общий вывод
+## Структура проекта
 
-- Проведена очистка и объединение данных из трёх источников.  
-- Разработаны новые категориальные и поведенческие признаки.  
-- Выявлены ключевые факторы, влияющие на отклики на email‑рассылки.  
-- Обучены несколько моделей, лучшая — CatBoost (ROC‑AUC 0.8712).  
-- Модель может использоваться для персонализации маркетинговых рассылок и увеличения конверсии.
+```text
+purchase_prediction/
+├── src/
+│   ├── ingest.py
+│   ├── validate.py
+│   ├── build_dataset.py
+│   └── train.py
+├── data/
+│   ├── raw/
+│   ├── validated/
+│   └── processed/
+├── artifacts/
+├── run_pipeline.ps1
+├── requirements.txt
+└── purchase_prediction.ipynb
+```
+
+## Быстрый запуск
+
+```powershell
+pip install -r requirements.txt
+./run_pipeline.ps1
+```
+
+## Итоговые артефакты
+
+- `data/validated/quality_report.json` - отчет по проверкам сырья.
+- `data/processed/dataset.parquet` - подготовленный датасет для обучения.
+- `data/processed/feature_manifest.json` - описание признаков и схемы.
+- `artifacts/model.joblib` - лучшая модель по `roc_auc`.
+- `artifacts/metrics.json` - метрики всех моделей и параметры лучшей.
 
 
 
