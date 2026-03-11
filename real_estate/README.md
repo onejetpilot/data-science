@@ -1,59 +1,73 @@
 # Исследование объявлений о продаже квартир
 
-Проект посвящён исследованию данных сервиса объявлений о продаже недвижимости.  
-Цель — выявить факторы, влияющие на стоимость объектов, проанализировать распределения признаков и подготовить данные для последующего моделирования.
-
 ## Используемый стек
 
-![Python](https://img.shields.io/badge/-Python-blue) ![Pandas](https://img.shields.io/badge/-Pandas-blue) ![Matplotlib](https://img.shields.io/badge/-Matplotlib-orange) ![Seaborn](https://img.shields.io/badge/-Seaborn-lightblue) ![missingno](https://img.shields.io/badge/-missingno-grey)
----
+![Python](https://img.shields.io/badge/-Python-blue)
+![Pandas](https://img.shields.io/badge/-Pandas-blue)
+![NumPy](https://img.shields.io/badge/-NumPy-yellow)
+![PyArrow](https://img.shields.io/badge/-PyArrow-lightgrey)
+![Requests](https://img.shields.io/badge/-Requests-green)
+![PowerShell](https://img.shields.io/badge/-PowerShell-5391FE)
 
-## Цели исследования
+## Цель проекта
 
-- Провести первичную предобработку данных  
-- Изучить основные параметры квартир и их распределение  
-- Определить факторы, которые коррелируют со стоимостью недвижимости  
-- Выявить зависимости между метражом, этажностью, расположением и ценой  
-- Подготовить чистый датасет для последующих ML-задач  
-
----
+Собрать воспроизводимый пайплайн для данных объявлений о продаже квартир:
+загрузить сырой датасет, провести валидацию, повторить ключевую очистку и
+сформировать аналитические срезы по факторам цены.
 
 ## Данные
 
-Файл: **`real_estate_data.csv`**
+Источник: `real_estate_data.csv` (Hugging Face).
 
-Структура данных включает следующие признаки:
+Ключевые поля:
 
-- `airports_nearest` — расстояние до ближайшего аэропорта  
-- `balcony` — число балконов  
-- `ceiling_height` — высота потолков  
-- `cityCenters_nearest` — расстояние до центра города  
-- `days_exposition` — время экспозиции объявления  
-- `first_day_exposition` — дата публикации  
-- `floors_total` — всего этажей в доме  
-- `is_apartment` — апартаменты / неквартиры  
-- `kitchen_area` — площадь кухни  
-- `last_price` — цена объекта  
-- `living_area` — жилая площадь  
-- `locality_name` — населённый пункт  
-- `open_plan` — свободная планировка  
-- `parks_around3000` — количество парков в радиусе 3км  
-- `parks_nearest` — расстояние до ближайшего парка  
-- `rooms` — количество комнат  
-- `studio` — студия / нет  
-- `total_area` — общая площадь  
-- `total_images` — количество фото  
+- `last_price` - цена квартиры;
+- `total_area`, `living_area`, `kitchen_area` - площади;
+- `rooms`, `floor`, `floors_total` - характеристики планировки;
+- `locality_name`, `city_centers_nearest` - локация;
+- `first_day_exposition`, `days_exposition` - параметры публикации.
 
----
+## Этапы пайплайна
 
-## Основные выводы исследования
+1. `ingest`  
+   Скачивает исходный CSV в `data/raw`.
+2. `validate`  
+   Проверяет наличие обязательных колонок и базовую целостность данных.
+3. `build_dataset`  
+   Повторяет шаги очистки и feature engineering из ноутбука:
+   заполнение пропусков, нормализация признаков, фильтры выбросов, новые признаки.
+4. `analyze`  
+   Строит агрегаты и сохраняет итоговый аналитический отчет в JSON.
 
-- крупнейший вклад в цену вносит площадь (total_area > 0.7 корреляции)  
-- высота потолков важна, но сильно зависит от типа объекта  
-- удалённость от центра — один из ключевых факторов стоимости  
-- объекты на первых и последних этажах дешевле  
-- апартаменты заметно выделяются по характеру цен  
-- время экспозиции имеет два явных пика: быстрые продажи и «зависшие» объекты  
+## Структура проекта
 
+```text
+real_estate/
+├── src/
+│   ├── ingest.py
+│   ├── validate.py
+│   ├── build_dataset.py
+│   └── analyze.py
+├── data/
+│   ├── raw/
+│   ├── validated/
+│   └── processed/
+├── artifacts/
+├── run_pipeline.ps1
+├── requirements.txt
+└── real_estate.ipynb
+```
 
+## Быстрый запуск
 
+```powershell
+pip install -r requirements.txt
+./run_pipeline.ps1
+```
+
+## Итоговые артефакты
+
+- `data/validated/quality_report.json` - отчет по проверке сырого датасета.
+- `data/processed/dataset.parquet` - очищенный датасет.
+- `data/processed/feature_manifest.json` - описание признаков и размеров выборки.
+- `artifacts/analysis_report.json` - итоговые агрегаты и факторы цены.
