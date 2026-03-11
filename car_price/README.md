@@ -1,59 +1,80 @@
 # Определение стоимости автомобилей
 
-Проект посвящён разработке модели, которая по характеристикам подержанного автомобиля предсказывает его рыночную стоимость.  
-Модель разрабатывается для сервиса продажи автомобилей «Не бит, не крашен» и должна быть достаточно точной и быстрой для использования в продакшене.
-
 ## Используемый стек
 
-![Python](https://img.shields.io/badge/-Python-blue) ![Pandas](https://img.shields.io/badge/-Pandas-blue) ![NumPy](https://img.shields.io/badge/-NumPy-yellow) ![Matplotlib](https://img.shields.io/badge/-Matplotlib-orange) ![Seaborn](https://img.shields.io/badge/-Seaborn-lightblue) ![Scikit-learn](https://img.shields.io/badge/-Scikit--learn-orange) ![LightGBM](https://img.shields.io/badge/-LightGBM-green) ![CatBoost](https://img.shields.io/badge/-CatBoost-black)
----
+![Python](https://img.shields.io/badge/-Python-blue)
+![Pandas](https://img.shields.io/badge/-Pandas-blue)
+![NumPy](https://img.shields.io/badge/-NumPy-yellow)
+![scikit--learn](https://img.shields.io/badge/-scikit--learn-orange)
+![CatBoost](https://img.shields.io/badge/-CatBoost-black)
+![PyArrow](https://img.shields.io/badge/-PyArrow-lightgrey)
+![Requests](https://img.shields.io/badge/-Requests-green)
+![PowerShell](https://img.shields.io/badge/-PowerShell-5391FE)
 
-## Цели исследования
+## Цель проекта
 
-- Проанализировать исходные данные об автомобилях и их ценах.  
-- Выявить ошибки, выбросы и аномалии в данных и скорректировать их.  
-- Подготовить признаки для обучения моделей: числовые и категориальные.  
-- Обучить и сравнить несколько моделей регрессии по качеству и скорости:  
-  - качество предсказания (RMSE),  
-  - время обучения,  
-  - время предсказания.  
-- Выбрать модель, удовлетворяющую условию: **RMSE < 2500**.  
-
----
+Построить воспроизводимый пайплайн оценки рыночной стоимости подержанного
+автомобиля по его характеристикам: от загрузки данных и проверки качества
+до подготовки признаков, обучения модели и сохранения метрик.
 
 ## Данные
 
-Данные находятся в файле **`autos.csv`**.  
-Каждая строка — отдельное объявление о продаже автомобиля.
+Источник данных: `autos.csv`.
 
-Основные признаки:
+Ключевые поля:
 
-- `price` — цена (евро), целевой признак;  
-- `vehicle_type` — тип кузова;  
-- `registration_year` — год регистрации автомобиля;  
-- `gearbox` — тип коробки передач;  
-- `power` — мощность (л.с.);  
-- `model` — модель;  
-- `kilometer` — пробег (км);  
-- `registration_month` — месяц регистрации;  
-- `fuel_type` — тип топлива;  
-- `brand` — марка;  
-- `repaired` — состояние (были/не были в ремонте);  
-- `date_crawled`, `date_created`, `last_seen` — временные признаки, связанные с обработкой и жизненным циклом объявления;  
-- `number_of_pictures` — количество фотографий;  
-- `postal_code` — почтовый индекс.
+- `Price` - целевой признак (стоимость автомобиля).
+- `VehicleType`, `Gearbox`, `Model`, `FuelType`, `Brand`, `Repaired` - категориальные признаки.
+- `RegistrationYear`, `Power`, `Kilometer`, `RegistrationMonth` - числовые признаки.
+- `DateCrawled`, `DateCreated`, `LastSeen` - служебные временные поля.
 
-В исходных данных обнаружены пропуски, подозрительные значения и аномалии (например, цена = 0, некорректный год регистрации, нулевая мощность и др.).
+## Этапы пайплайна
 
----
+1. `ingest`  
+   Скачивает `autos.csv` в `data/raw` и создает `manifest.json`.
+2. `validate`  
+   Проверяет наличие обязательных колонок и базовую целостность данных.
+3. `build_dataset`  
+   Очищает аномалии, формирует признаки, делит данные на train/val.
+4. `train`  
+   Обучает `CatBoostRegressor` и считает метрики `RMSE` и `MAE`.
 
-## Основные выводы
+## Структура проекта
 
-- Исходные данные содержали ошибки, выбросы и некорректные значения, которые были выявлены и устранены.  
-- После предобработки сформирован адекватный набор признаков, отражающий реальные характеристики автомобиля и его состояние.  
-- Анализ показал, что ключевыми факторами цены являются год регистрации, мощность, пробег, марка, модель и состояние ремонта.  
-- Сравнение нескольких моделей продемонстрировало, что линейная регрессия не подходит по качеству, а случайный лес — по времени работы.  
-- Градиентный бустинг (LightGBM, CatBoost) показал наилучшее сочетание качества и скорости.  
-- В качестве финального решения выбрана модель **CatBoostRegressor**, обеспечивающая **RMSE значительно ниже 2500** и подходящая для использования в сервисе оценки стоимости подержанных автомобилей.
+```text
+car_price/
+├── src/
+│   ├── ingest.py
+│   ├── validate.py
+│   ├── build_dataset.py
+│   └── train.py
+├── data/
+│   ├── raw/
+│   ├── validated/
+│   └── processed/
+├── artifacts/
+├── run_pipeline.ps1
+├── requirements.txt
+└── autos.ipynb
+```
 
+## Быстрый запуск
 
+```powershell
+pip install -r requirements.txt
+./run_pipeline.ps1
+```
+
+Если нужен другой источник CSV:
+
+```powershell
+./run_pipeline.ps1 -DataUrl "https://your-url/autos.csv"
+```
+
+## Итоговые артефакты
+
+- `data/validated/quality_report.json` - отчет по проверкам качества.
+- `data/processed/train.parquet` и `data/processed/val.parquet` - подготовленные выборки.
+- `data/processed/feature_manifest.json` - список признаков для обучения.
+- `artifacts/model.cbm` - обученная CatBoost модель.
+- `artifacts/metrics.json` - итоговые метрики запуска (`RMSE`, `MAE`).
