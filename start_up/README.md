@@ -1,57 +1,86 @@
 # Предсказание успешности стартапов
 
-Проект посвящён разработке модели, которая определяет, закроется стартап или продолжит существование.  
-Используются данные о финансировании, отрасли, дате основания, местоположении, количестве сотрудников и других признаках.
-
 ## Используемый стек
 
-![Python](https://img.shields.io/badge/-Python-blue) ![Pandas](https://img.shields.io/badge/-Pandas-blue) ![NumPy](https://img.shields.io/badge/-NumPy-yellow) ![Matplotlib](https://img.shields.io/badge/-Matplotlib-orange) ![Seaborn](https://img.shields.io/badge/-Seaborn-lightblue) ![LightGBM](https://img.shields.io/badge/-LightGBM-green) ![CatBoost](https://img.shields.io/badge/-CatBoost-black) 
+![Python](https://img.shields.io/badge/-Python-blue)
+![Pandas](https://img.shields.io/badge/-Pandas-blue)
+![NumPy](https://img.shields.io/badge/-NumPy-yellow)
+![scikit--learn](https://img.shields.io/badge/-scikit--learn-orange)
+![LightGBM](https://img.shields.io/badge/-LightGBM-green)
+![CatBoost](https://img.shields.io/badge/-CatBoost-black)
+![Requests](https://img.shields.io/badge/-Requests-green)
+![PyArrow](https://img.shields.io/badge/-PyArrow-lightgrey)
+![PowerShell](https://img.shields.io/badge/-PowerShell-5391FE)
 
----
+## Цель проекта
 
-## Цели исследования
-- Изучить структуру данных и провести предобработку.  
-- Исследовать признаки: финансирование, время жизни, индустрия, география.  
-- Создать новые признаки (age, lifetime, количество категорий, плотность населения города и др.).  
-- Обучить несколько моделей классификации и выбрать лучшую.  
-- Оценить важность признаков и интерпретировать модель.
-
----
+Построить воспроизводимый mini-pipeline, который предсказывает статус стартапа
+(`closed` / `operating`) по данным о финансировании, категориях, датах и
+географии.
 
 ## Данные
 
-Датасет состоит из двух файлов:
+Используются три файла:
 
-### **train.csv**
-Содержит:
-- **name** — название стартапа  
-- **category_list** — список категорий (индустрий)  
-- **funding_total_usd** — инвестированные средства  
-- **funding_rounds** — количество раундов финансирования  
-- **founded_at** — дата основания  
-- **first_funding_at / last_funding_at**  
-- **country_code / state_code**  
-- **city**  
-- **employee_count** — диапазон количества сотрудников  
-- **status** — целевой признак (`closed` / `operating`)  
-- **lifetime** — рассчитанное время существования в днях
+- `kaggle_startups_train_28062024.csv`
+- `kaggle_startups_test_28062024.csv`
+- `worldcitiespop.csv`
 
-### **cities.csv**
-Содержит:
-- координаты  
-- население города  
-- плотность населения  
+## Этапы пайплайна
 
-Связан по полю **city**.
+1. `ingest`  
+   Загружает/копирует исходные CSV в `data/raw` и сохраняет `manifest.json`.
+2. `validate`  
+   Проверяет обязательные колонки и базовые метрики качества.
+3. `build_dataset`  
+   Повторяет ключевую логику ноутбука: `cat_1..cat_5`, временные признаки
+   (`lifetime`, `fundingtime`, ...), merge с городами, отсечение колонок с
+   высокой корреляцией.
+4. `train`  
+   Обучает pipeline с `CatBoostEncoder` и подбором `LightGBM/CatBoost` через
+   `RandomizedSearchCV` (метрика `F1` для класса `closed`), сохраняет модель и
+   предсказания для test.
 
----
+## Структура проекта
 
-## Общий вывод
+```text
+start_up/
+├── src/
+│   ├── ingest.py
+│   ├── validate.py
+│   ├── build_dataset.py
+│   └── train.py
+├── data/
+│   ├── raw/
+│   ├── validated/
+│   └── processed/
+├── artifacts/
+├── run_pipeline.ps1
+├── requirements.txt
+└── start_up_pred.ipynb
+```
 
-- Данные о стартапах успешно обработаны, пропуски корректно заполнены.  
-- Проведён подробный EDA, выявлены ключевые закономерности: ранняя смертность стартапов, зависимость от индустрии и инвестиций.  
-- Обучены несколько моделей, лучшая — **CatBoost**.  
-- Проект демонстрирует, что успешность стартапа можно оценить по нескольким ключевым признакам.  
-- Модель может использоваться для портфельного анализа венчурных фондов.
+## Быстрый запуск
 
+```powershell
+pip install -r requirements.txt
+./run_pipeline.ps1
+```
 
+Если нужно запускать из локальных файлов:
+
+```powershell
+./run_pipeline.ps1 `
+  -LocalTrainFile ".\kaggle_startups_train_28062024.csv" `
+  -LocalTestFile ".\kaggle_startups_test_28062024.csv" `
+  -LocalCitiesFile ".\worldcitiespop.csv"
+```
+
+## Итоговые артефакты
+
+- `data/validated/quality_report.json` - отчет валидации сырых данных.
+- `data/processed/train.parquet`, `data/processed/test.parquet` - готовые выборки.
+- `data/processed/feature_manifest.json` - список итоговых признаков.
+- `artifacts/model.joblib` - обученный pipeline.
+- `artifacts/metrics.json` - CV и валидационные метрики.
+- `artifacts/submit_predictions.csv` - предсказания статуса для test.
