@@ -1,36 +1,78 @@
 # Классификация токсичных комментариев
 
-Проект направлен на разработку модели, способной автоматически определять токсичность пользовательских комментариев. Такая система может использоваться в службах модерации, сервисах с пользовательским контентом и в автоматических фильтрах качества коммуникации.
-
 ## Используемый стек
 
-![Python](https://img.shields.io/badge/-Python-blue) ![Pandas](https://img.shields.io/badge/-Pandas-blue) ![NumPy](https://img.shields.io/badge/-NumPy-yellow) ![Matplotlib](https://img.shields.io/badge/-Matplotlib-orange) ![Seaborn](https://img.shields.io/badge/-Seaborn-lightblue) ![spaCy](https://img.shields.io/badge/-spaCy-lightblue) ![NLTK](https://img.shields.io/badge/-NLTK-green) ![WordCloud](https://img.shields.io/badge/-WordCloud-purple) ![Scikit-learn](https://img.shields.io/badge/-Scikit--learn-orange) ![Regex](https://img.shields.io/badge/-Regex-grey)
----
+![Python](https://img.shields.io/badge/-Python-blue)
+![Pandas](https://img.shields.io/badge/-Pandas-blue)
+![NumPy](https://img.shields.io/badge/-NumPy-yellow)
+![scikit--learn](https://img.shields.io/badge/-scikit--learn-orange)
+![LightGBM](https://img.shields.io/badge/-LightGBM-green)
+![spaCy](https://img.shields.io/badge/-spaCy-lightblue)
+![Requests](https://img.shields.io/badge/-Requests-green)
+![PyArrow](https://img.shields.io/badge/-PyArrow-lightgrey)
+![PowerShell](https://img.shields.io/badge/-PowerShell-5391FE)
 
-## Цели исследования
-- Проанализировать корпус текстов и выявить особенности токсичных и нетоксичных комментариев.  
-- Подготовить данные: очистить, нормализовать и лемматизировать текст.  
-- Исследовать лексическое различие между классами.  
-- Сформировать признаковое пространство на основе TF-IDF.  
-- Обучить и сравнить несколько моделей.  
-- Выбрать финальную модель, удовлетворяющую требованию F1 ≥ 0.75.  
+## Цель проекта
 
----
+Построить воспроизводимый mini-pipeline для классификации токсичных комментариев
+с целевой метрикой `F1 >= 0.75`.
 
 ## Данные
-Исходный датасет содержит:
-- **159 292** комментария,  
-- столбцы: `text` (текст комментария), `toxic` (целевой признак: токсичность),  
-- пропуски и дубликаты отсутствуют.
 
-Выборка выраженно несбалансирована: большинство комментариев относятся к классу 0 (нетоксичные).
+Источник: `toxic_comments.csv` с колонками:
 
----
+- `text` - текст комментария;
+- `toxic` - целевой признак (0/1).
 
-## Основные выводы
-- Данные успешно подготовлены: выполнена очистка, нормализация и лемматизация.  
-- Токсичные комментарии действительно имеют ограниченную лексику и содержат ярко выраженные оскорбления.  
-- Наиболее информативным способом представления текстов стала TF-IDF матрица с 1–2-граммами.  
-- Сравнение моделей показало, что LinearSVC лучше всего справляется с задачей.  
-- Итоговый F1 превышает требуемый уровень, что позволяет использовать модель в реальных задачах фильтрации токсичности.
+## Этапы пайплайна
 
+1. `ingest`  
+   Загружает исходный CSV в `data/raw` и сохраняет `manifest.json`.
+2. `validate`  
+   Проверяет обязательные колонки и корректность целевого признака.
+3. `build_dataset`  
+   Делает базовую нормализацию текста (lower + regex), формирует train/test split.
+4. `train`  
+   Сравнивает `LogisticRegression`, `LinearSVC`, `LightGBM` на TF-IDF (1-2 grams)
+   по CV `F1`, выбирает лучшую и считает метрики на test.
+
+## Структура проекта
+
+```text
+toxic_comments/
+├── src/
+│   ├── ingest.py
+│   ├── validate.py
+│   ├── build_dataset.py
+│   └── train.py
+├── data/
+│   ├── raw/
+│   ├── validated/
+│   └── processed/
+├── artifacts/
+├── run_pipeline.ps1
+├── requirements.txt
+└── toxic_comments.ipynb
+```
+
+## Быстрый запуск
+
+```powershell
+pip install -r requirements.txt
+./run_pipeline.ps1
+```
+
+Если файл уже есть локально:
+
+```powershell
+./run_pipeline.ps1 -LocalFile ".\toxic_comments.csv"
+```
+
+## Итоговые артефакты
+
+- `data/validated/quality_report.json` - отчет по проверкам данных.
+- `data/processed/train.parquet`, `data/processed/test.parquet` - train/test после подготовки.
+- `data/processed/feature_manifest.json` - параметры split и признаки.
+- `artifacts/model.joblib` - лучшая модель.
+- `artifacts/metrics.json` - CV F1 и test F1 + проверка порога 0.75.
+- `artifacts/test_predictions.csv` - прогнозы по тестовой выборке.
