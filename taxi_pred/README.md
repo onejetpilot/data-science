@@ -1,46 +1,78 @@
 # Прогнозирование заказов такси
 
-Проект посвящён разработке модели, которая прогнозирует количество заказов такси на следующий час на основе исторических данных.  
-Цель — помочь сервису оптимизировать количество автомобилей в разных районах и повысить качество обслуживания.
-
 ## Используемый стек
 
-![Python](https://img.shields.io/badge/-Python-blue) ![Pandas](https://img.shields.io/badge/-Pandas-blue) ![NumPy](https://img.shields.io/badge/-NumPy-yellow) ![Matplotlib](https://img.shields.io/badge/-Matplotlib-orange) ![Seaborn](https://img.shields.io/badge/-Seaborn-lightblue) ![Scikit-learn](https://img.shields.io/badge/-Scikit--learn-orange) ![LightGBM](https://img.shields.io/badge/-LightGBM-green) ![CatBoost](https://img.shields.io/badge/-CatBoost-black) 
----
+![Python](https://img.shields.io/badge/-Python-blue)
+![Pandas](https://img.shields.io/badge/-Pandas-blue)
+![NumPy](https://img.shields.io/badge/-NumPy-yellow)
+![scikit--learn](https://img.shields.io/badge/-scikit--learn-orange)
+![CatBoost](https://img.shields.io/badge/-CatBoost-black)
+![Requests](https://img.shields.io/badge/-Requests-green)
+![PyArrow](https://img.shields.io/badge/-PyArrow-lightgrey)
+![PowerShell](https://img.shields.io/badge/-PowerShell-5391FE)
 
-## Цели исследования
+## Цель проекта
 
-- Изучить временной ряд заказов такси.  
-- Выполнить ресемплирование данных.  
-- Провести анализ тренда, сезонности и шума.  
-- Подготовить признаки (лаговые переменные, скользящее среднее).  
-- Обучить несколько моделей временных рядов.  
-- Выбрать модель с RMSE **не выше 48** на тестовой выборке.  
-
----
+Построить воспроизводимый mini-pipeline прогноза количества заказов такси на
+следующий час и проверить достижение целевого качества RMSE <= 48.
 
 ## Данные
 
-Имеются исторические данные о количестве заказов:
+Источник: `taxi.csv` с колонками:
 
-- **datetime** — временная метка (с шагом 1 час)  
-- **num_orders** — количество заказов такси за соответствующий час  
+- `datetime` - временная метка;
+- `num_orders` - количество заказов.
 
-### Особенности данных:
-- временной ряд без пропусков;  
-- отсортирован по времени;  
-- присутствуют реальные пики спроса (вечер, выходные);  
-- ярко выраженная недельная сезонность.
+## Этапы пайплайна
 
----
+1. `ingest`  
+   Загружает исходный CSV в `data/raw` и сохраняет `manifest.json`.
+2. `validate`  
+   Проверяет обязательные колонки, валидность `datetime` и `num_orders`.
+3. `build_dataset`  
+   Ресемплирует ряд по часу, создает лаги (`1,2,3,24,168`) и скользящие средние
+   (`24,168`), формирует train/test без shuffle.
+4. `train`  
+   Сравнивает `CatBoost`, `RandomForest`, `LinearRegression` по CV RMSE
+   (`TimeSeriesSplit`), выбирает лучшую и считает RMSE на test.
 
-## Основные выводы
+## Структура проекта
 
-- Проведён анализ временного ряда с выявлением трендов и сезонности.  
-- Созданы эффективные лаговые признаки и скользящие средние.  
-- Обучены несколько моделей машинного обучения.  
-- Лучшая модель — **LightGBM**, RMSE ≈ 41.  
-- Модель подходит для применения в системе распределения такси.
+```text
+taxi_pred/
+├── src/
+│   ├── ingest.py
+│   ├── validate.py
+│   ├── build_dataset.py
+│   └── train.py
+├── data/
+│   ├── raw/
+│   ├── validated/
+│   └── processed/
+├── artifacts/
+├── run_pipeline.ps1
+├── requirements.txt
+└── taxi_pred.ipynb
+```
 
+## Быстрый запуск
 
+```powershell
+pip install -r requirements.txt
+./run_pipeline.ps1
+```
 
+Если файл уже есть локально:
+
+```powershell
+./run_pipeline.ps1 -LocalFile ".\taxi.csv"
+```
+
+## Итоговые артефакты
+
+- `data/validated/quality_report.json` - отчет по проверкам данных.
+- `data/processed/train.parquet`, `data/processed/test.parquet` - подготовленные выборки.
+- `data/processed/feature_manifest.json` - параметры признаков и split.
+- `artifacts/model.joblib` - лучшая модель.
+- `artifacts/metrics.json` - CV и test RMSE + проверка порога 48.
+- `artifacts/test_predictions.csv` - факт/прогноз для test.
