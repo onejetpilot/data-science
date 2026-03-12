@@ -12,7 +12,7 @@
 | **[Предсказание покупок](https://github.com/onejetpilot/data-science/tree/main/purchase_prediction)** | CatBoost · LightGBM |
 | **[Рынок недвижимости](https://github.com/onejetpilot/data-science/tree/main/real_estate)** | EDA · Matplotlib · Seaborn |
 | **[Аренда самокатов](https://github.com/onejetpilot/data-science/tree/main/rides)** | EDA · SciPy |
-| **[Температура звезды](https://github.com/onejetpilot/data-science/tree/main/star_temp)** | TensorFlow · Keras |
+| **[Температура звезды](https://github.com/onejetpilot/data-science/tree/main/star_temp)** | PyTorch · scikit-learn |
 | **[Успешность стартапов](https://github.com/onejetpilot/data-science/tree/main/start_up)** | LightGBM · CatBoost |
 | **[Локация месторождений](https://github.com/onejetpilot/data-science/tree/main/well_loc)** | Statistical Tests |
 

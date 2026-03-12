@@ -1,58 +1,93 @@
 # Прогнозирование температуры звезды
 
-Проект посвящён созданию нейронной сети, которая предсказывает **абсолютную температуру поверхности звезды** на основе её физических характеристик.  
-Данные предоставлены обсерваторией «Небо на ладони» и включают параметры 240 звёзд.
-
 ## Используемый стек
 
-![Python](https://img.shields.io/badge/-Python-blue) ![Pandas](https://img.shields.io/badge/-Pandas-blue) ![NumPy](https://img.shields.io/badge/-NumPy-yellow) ![Matplotlib](https://img.shields.io/badge/-Matplotlib-orange) ![Seaborn](https://img.shields.io/badge/-Seaborn-lightblue) ![TensorFlow](https://img.shields.io/badge/-TensorFlow-orange) ![Keras](https://img.shields.io/badge/-Keras-red) 
----
+![Python](https://img.shields.io/badge/-Python-blue)
+![Pandas](https://img.shields.io/badge/-Pandas-blue)
+![NumPy](https://img.shields.io/badge/-NumPy-yellow)
+![scikit--learn](https://img.shields.io/badge/-scikit--learn-orange)
+![PyTorch](https://img.shields.io/badge/-PyTorch-red)
+![Requests](https://img.shields.io/badge/-Requests-green)
+![PyArrow](https://img.shields.io/badge/-PyArrow-lightgrey)
+![PowerShell](https://img.shields.io/badge/-PowerShell-5391FE)
 
-## Цели исследования
+## Цель проекта
 
-- Изучить набор астрофизических данных.  
-- Провести анализ числовых признаков и взаимосвязей.  
-- Подготовить данные: масштабирование, кодирование категориальных признаков.  
-- Обучить две модели:
-  - **Базовая нейронная сеть**  
-  - **Нейронная сеть с улучшенной архитектурой**  
-- Сравнить качество моделей по MAE / RMSE.  
-- Сделать выводы о применимости нейросети в задачах астрофизического анализа.
-
----
+Построить воспроизводимый пайплайн предсказания абсолютной температуры звезды:
+от загрузки исходного CSV до обучения baseline и улучшенной нейросети с
+сохранением итоговых метрик.
 
 ## Данные
 
-В набор входят следующие признаки:
+Источник: `6_class_1.csv`.
 
-- **L/Lo** — относительная светимость  
-- **R/Ro** — относительный радиус  
-- **A_M** — абсолютная звёздная величина  
-- **Temperature** — абсолютная температура поверхности (целевой признак)  
-- **Color** — цвет звезды  
-- **Spectral_Class** — спектральный класс (O, B, A, F, G, K, M)  
-- **Star_Type** — тип звезды:
-  - 0 — Коричневый карлик  
-  - 1 — Красный карлик  
-  - 2 — Белый карлик  
-  - 3 — Звезда главной последовательности  
-  - 4 — Сверхгигант  
-  - 5 — Гипергигант  
+Ключевые признаки:
 
-В данных **нет пропусков**, дубликатов также не обнаружено.
+- `Luminosity(L/Lo)` - относительная светимость.
+- `Radius(R/Ro)` - относительный радиус.
+- `Absolute magnitude(Mv)` - абсолютная звездная величина.
+- `Star color` - цвет звезды.
+- `Star type` - тип звезды.
+- `Spectral Class` - спектральный класс.
+- `Temperature (K)` - целевой признак.
 
----
+## Этапы пайплайна
 
-## Основные выводы
+1. `ingest`  
+   Скачивает исходный CSV в `data/raw` и сохраняет `manifest.json`.
+2. `validate`  
+   Проверяет обязательные колонки и базовые показатели качества.
+3. `build_dataset`  
+   Выполняет очистку категорий (`star_color`), split train/val и preprocessing
+   (`StandardScaler + OneHotEncoder`), сохраняет подготовленные выборки.
+4. `train`  
+   Обучает набор baseline архитектур и улучшенную модель `MyNetCD` с подбором
+   `dropout/batch_size`, сохраняет модель, метрики и прогнозы.
 
-- Исходный датасет корректен и хорошо подходит для обучения.  
-- Распределения признаков сильно неоднородны: требуется масштабирование и нормализация.  
-- Улучшенная нейронная сеть достигает высокой точности и может использоваться в задачах оценки физических свойств звёзд.  
-- Наибольшую роль в предсказании температуры играют:
-  - спектральный класс,  
-  - тип звезды,  
-  - светимость,  
-  - радиус.  
+## Структура проекта
 
+```text
+star_temp/
+├── src/
+│   ├── ingest.py
+│   ├── validate.py
+│   ├── build_dataset.py
+│   └── train.py
+├── data/
+│   ├── raw/
+│   ├── validated/
+│   └── processed/
+├── artifacts/
+├── run_pipeline.ps1
+├── requirements.txt
+└── star_temp.ipynb
+```
 
+## Быстрый запуск
 
+```powershell
+pip install -r requirements.txt
+./run_pipeline.ps1
+```
+
+Если нужен другой источник CSV:
+
+```powershell
+./run_pipeline.ps1 -DataUrl "https://your-url/6_class_1.csv"
+```
+
+Если источник недоступен, можно использовать локальный файл:
+
+```powershell
+./run_pipeline.ps1 -LocalFile ".\6_class_1.csv"
+```
+
+## Итоговые артефакты
+
+- `data/raw/6_class_1.csv` - исходный датасет.
+- `data/validated/quality_report.json` - отчет по проверкам качества.
+- `data/processed/train.parquet`, `data/processed/val.parquet` - подготовленные выборки.
+- `data/processed/feature_manifest.json` - итоговый список признаков.
+- `artifacts/model.pt` - веса лучшей улучшенной модели.
+- `artifacts/metrics.json` - сводные метрики baseline/tuned.
+- `artifacts/predictions.csv` - факт/прогноз на валидации.
